@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;  //This is the user model / Models / Use
+use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
@@ -27,9 +28,11 @@ class UserController extends Controller
         }
 
         $request['password']= Hash::make($request['password']);
+        $request['remember_token'] = Str::random(10);
 
 
-        $user= new User();
+        $user= User::create($request->toArray());
+        $token = $user->createToken('Laravel Password Grant Client')->accessToken;
         $user->username =$request->username;
         $user->name =$request->name;
         $user->email =$request->email;
@@ -37,7 +40,7 @@ class UserController extends Controller
 
         $user->save();
         $response ='Successfully creates user';
-        return response($response, 200);
+        return response($response, 200)->json([$user, $token]);
     }
 
     public function user_update(Request $request, $id)
@@ -112,5 +115,5 @@ class UserController extends Controller
 
         return response($response, 200);
     }
-    
+
 }
