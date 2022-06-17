@@ -196,6 +196,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Laravel\Passport\PassportServiceProvider::class, //Add the passport services
+        Spatie\Permission\PermissionServiceProvider::class, //Add the permission services
 
     ],
 
