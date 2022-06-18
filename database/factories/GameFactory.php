@@ -25,7 +25,6 @@ class GameFactory extends Factory
             'average' => $this->$result+=$result,
             'lowest_ranking' => $this->faker->rand()<=100,
             'highest_ranking' => $this->faker->rand()>=100,
-
         ];
     }
 }
