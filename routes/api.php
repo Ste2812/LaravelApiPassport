@@ -30,16 +30,18 @@ Route::group([
             Route::delete('user-delete/{id}', [UserController::class, 'user_delete'])->name('user.delete');
             Route::get('index', [UserController::class, 'user_index'])->name('index');
             Route::post('logout', [UserController::class, 'logout'])->name('logout');
-            Route::post('/players', [PlayerController::class, 'store'])->name('store');//subconjunto controller user para crear usuario a partir del registro
+            Route::post('/players', [PlayerController::class, 'create_player'])->name('store.player');//subconjunto controller user para crear usuario a partir del registro
             Route::put('/players/{id}', [PlayerController::class, 'update'])->name('update');
-            Route::post('/player/{id}/games/', [PlayerController::class, 'create_game'])->name('create.game');
-            Route::delete('/players/{id}/games', [PlayerController::class, 'delete_game'])->name('user.create');
+            Route::post('/players/{id}/games/', [PlayerController::class, 'store'])->name('store.game');
+            Route::delete('/players/{id}/games', [PlayerController::class, 'delete_game'])->name('delete.game');
             Route::get('players', [PlayerController::class, 'show_players'])->name('show.players');
             Route::get('players/{id}/games', [PlayerController::class, 'show_games'])->name('show.games');
             Route::get('/players/ranking', [PlayerController::class, 'ranking'])->name('ranking');
             Route::get('/players/ranking/loser', [PlayerController::class, 'lowest_ranking'])->name('lowest.ranking');
-            Route::get('/players/ranking/winner', [PlayerController::class, 'highest_ranking'])->name('highsest.ranking');
+            Route::get('/players/ranking/winner', [PlayerController::class, 'highest_ranking'])->name('highest.ranking');
         });
 
     });
+
+    Route::get('/pruebaController', [PlayerController::class, 'store']);
 

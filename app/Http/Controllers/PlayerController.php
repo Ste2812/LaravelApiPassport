@@ -33,23 +33,57 @@ class PlayerController extends Controller
         $game = new Game();
         $game->dice_one=rand(1, 6);
         $game->dice_two=rand(1, 6);
-        $game->success_result=0;
-        $game->result=$game->dice_one+$game->dice_two;
-        $game->user_id=$request->$user;
+        //$game->success_result=0;
+        $game=$this->points=rand(true, false);
+        $game=$this->result=$this->dice_one+$this->dice_two;
+        //$game->user_id=$request->$user;
+        $game->user_id=rand(1, 10);
+        $out=false;
+        $count=1;
 
-        if ($game->result==7){
+        while (!$out==false) {
 
-            $successResult=1;
-            $game->$successResult;
-            echo 'Won! ;)';
+            $input="";
+            echo "tirada de dados numero: ".$count;
+            $game->dice_one=rand(1, 6);
+            $game->dice_two=rand(1, 6);
+
+            echo "dado 1: ".$game->dice_one+" dado 2: "+$game->dice_two;
+            $result= $game->dice_one+$game->dice_two;
+            $result=$this->result=$result;
+            echo "resultado jugada: ".$result;
+
+            if($out==false){
+
+            if ($game->result==7){
+
+                $successResult=1;
+                $game->$successResult;
+                echo 'Won! ;)';
+
+            }else{
+                $successResult=0;
+                $game->successResult;
+                echo 'lost! try again ;(';
+            }
 
         }else{
-            $successResult=0;
-            $game->successResult;
-            echo 'lost! try again ;(';
+            echo "volver a tirar otra mano de dados?(S/N)";
+            sscanf($input, "%d");
+            if($input==stristr($input, "n")||$input==stristr($input, "N")){
+                $out=false;
+            }else{
+                $out=true;
+            }
+        }
+        $count++;
+
         }
 
-        $game->save();
+
+
+        //$game->save();
+        echo $game;
 
         return response()->json([$game]);
 
@@ -97,11 +131,18 @@ class PlayerController extends Controller
 
     }
 
+    public function create_player()
+    {
+
+
+    }
+
+
 
     public function show_games(Request $request)
     {
         $game= Game::find($request->user_id);
-        
+
 
         return response()->json([$game], 200);
 

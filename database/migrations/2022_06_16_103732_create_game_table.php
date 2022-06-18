@@ -19,10 +19,10 @@ return new class extends Migration
             $table->integer('dice_two');
             $table->integer('result');
             $table->integer('points');
-            $table->double('ranking');
-            $table->integer('rankingValue');
-            $table->double('lowest_ranking');
-            $table->double('highest_ranking');
+            $table->integer('ranking');
+            $table->integer('ranking_value');
+            $table->integer('lowest_ranking');
+            $table->integer('highest_ranking');
             $table->foreignId('user_id')->references('id')->on('users');
             $table->timestamps();
         });
