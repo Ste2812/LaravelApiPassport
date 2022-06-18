@@ -18,7 +18,7 @@ return new class extends Migration
             $table->integer('dice_one');
             $table->integer('dice_two');
             $table->integer('result');
-            $table->integer('success_results');
+            $table->integer('points');
             $table->double('ranking');
             $table->integer('rankingValue');
             $table->double('lowest_ranking');
