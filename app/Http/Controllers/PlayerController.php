@@ -101,6 +101,7 @@ class PlayerController extends Controller
     public function show_games(Request $request)
     {
         $game= Game::find($request->user_id);
+        
 
         return response()->json([$game], 200);
 
