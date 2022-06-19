@@ -13,17 +13,16 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('game', function (Blueprint $table) {
-            $table->id();
+        Schema::create('games', function (Blueprint $table) {
+            $table->integer('id');
             $table->integer('dice_one');
             $table->integer('dice_two');
             $table->integer('result');
             $table->integer('points');
             $table->integer('ranking');
-            $table->integer('ranking_value');
             $table->integer('lowest_ranking');
             $table->integer('highest_ranking');
-            $table->foreignId('user_id')->references('id')->on('users');
+            $table->foreignId('user_id'); //->references('id')->on('users');
             $table->timestamps();
         });
     }
