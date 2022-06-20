@@ -18,13 +18,15 @@ class GameFactory extends Factory
     {
 
         return [
-            $diceOne= 'dice_one' => $this->faker->rand(1, 6),
-            $diceTwo='dice_two' => $this->faker->rand(1, 6),
-            $result= 'result' => $this->$diceOne+$diceTwo,
-            'success_result' => $result==7?true:false,
-            'average' => $this->$result+=$result,
-            'lowest_ranking' => $this->faker->rand()<=100,
-            'highest_ranking' => $this->faker->rand()>=100,
+            'id' => $this->faker->numberBetween(1, 10),
+            'dice_one' => $this->faker->numberBetween($min = 1, $max = 6),
+            'dice_two' => $this->faker->numberBetween($min = 1, $max = 6),
+            'result'=> $this->faker->numberBetween($min = 1, $max = 6),
+            'points'=> $this->faker->numberBetween($min = 1, $max = 6),
+            'ranking' => $this->faker->numberBetween($min = 1, $max = 6),
+            'lowest_ranking' => $this->faker->numberBetween($min = 1, $max = 6),
+            'highest_ranking' => $this->faker->numberBetween($min = 1, $max = 6),
+            'user_id' => $this->faker->numberBetween($min = 1, $max = 20),
         ];
     }
 }

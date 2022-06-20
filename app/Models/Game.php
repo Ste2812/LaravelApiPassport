@@ -10,13 +10,15 @@ class Game extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['dice_one', 'dice_two', 'user_id', 'result', 'success_results', 'ranking', 'lowest_ranking', 'highest_ranking'];
+    protected $fillable = ['dice_one', 'dice_two', 'result', 'points', 'ranking', 'lowest_ranking', 'highest_ranking', 'user_id'];
 
-    public function user()
+    //protected $guarded=['dice_one', 'dice_two', 'user_id', 'result', 'success_results', 'ranking', 'lowest_ranking', 'highest_ranking'];
+
+    /*public function user()
     {
         return $this->belongsTo(User::class);
 
-    }
+    }*/
 
-    $updateRanking =DB::table('game')->where('id', '=', $id)->update(['ranking' => $ranking]);
+    //$updateRanking =DB::table('game')->where('id', '=', //$id)->update(['ranking' => $ranking]);
 }
