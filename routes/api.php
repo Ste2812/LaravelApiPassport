@@ -20,17 +20,16 @@ use Illuminate\Support\Facades\Route;
 
 Route::group([
     'prefix' => 'users'], function() {
-        Route::post('signup', [UserController::class, 'user_create'])->name('user.create');//separar registro usuario y registro jugador
+        Route::post('players', [UserController::class, 'user_create'])->/*middleware('can:store.player')->*/name('store.player');
         Route::post('login', [UserController::class, 'login'])->name('login');
 
         //rutas de acceso solo para usuarios logeados
 
         Route::group(['middleware'=>'auth:api'], function() {
-            //Route::put('user-update/{id}', [UserController::class, 'user_update'])->middleware('can:user.update')->name('user.update');
+
             Route::delete('user-delete/{id}', [UserController::class, 'user_delete'])->middleware('can:user.delete')->name('user.delete');
             Route::get('index', [UserController::class, 'user_index'])->middleware('can:index')->name('index');
             Route::post('logout', [UserController::class, 'logout'])->middleware('can:logout')->name('logout');
-            Route::post('/players', [PlayerController::class, 'create_player'])->middleware('can:store.player')->name('store.player');//subconjunto controller user para crear usuario a partir del registro
             Route::put('/players/{id}', [UserController::class, 'user_update'])->middleware('can:update')->name('update');
             Route::post('/players/{id}/games/', [PlayerController::class, 'store'])->middleware('can:store.game')->name('store.game');
             Route::delete('/players/{id}/games', [PlayerController::class, 'delete_game'])->middleware('can:delete.game')->name('delete.game');

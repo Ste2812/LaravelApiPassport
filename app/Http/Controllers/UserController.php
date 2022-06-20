@@ -37,7 +37,7 @@ class UserController extends Controller
         //$user->name =$request->name;
         $user->email =$request->email;
         $user->password =$request->password;
-        $user->registerd_at = now();
+        $user->email_verified_at = now();
 
 
         $user->save();

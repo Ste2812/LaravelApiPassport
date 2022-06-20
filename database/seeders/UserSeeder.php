@@ -6,6 +6,7 @@ use App\Models\User;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 
@@ -24,7 +25,7 @@ class UserSeeder extends Seeder
             'username' => 'admin',
             'email' => 'admin@admin.com',
             'email_verified_at' => now(),
-            'password' => 'ZWAc4AXPF3Mdoz3IebYMuqfLD80hde9YRtxDTvjt', // password
+            'password' => Hash::make('password200'), // password
             'remember_token' => Str::random(10),
         ])->assignRole('admin');
 
@@ -32,7 +33,7 @@ class UserSeeder extends Seeder
             'username' => 'player',
             'email' => 'player@player.com',
             'email_verified_at' => now(),
-            'password' => 'ZWAc4AXPF3Mdoz3IebYMuqfLD80hde9YRtxDTvjt', // password
+            'password' => Hash::make('password202'), // password
             'remember_token' => Str::random(10),
         ])->assignRole('user');
 

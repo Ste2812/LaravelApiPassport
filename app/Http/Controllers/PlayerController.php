@@ -107,7 +107,11 @@ class PlayerController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $player = User::all();
+        $player->find($request->id);
+        $player->username =$request->username;
+
+        $player->update();
     }
 
     /**
@@ -127,11 +131,6 @@ class PlayerController extends Controller
 
     }
 
-    public function create_player()
-    {
-
-
-    }
 
 
 
