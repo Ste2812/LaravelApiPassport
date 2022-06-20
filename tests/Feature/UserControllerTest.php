@@ -34,7 +34,7 @@ class UserControllerTest extends TestCase
             'password_confirmation' => 'password100',
         ]);
 
-        $response->assertOk();
+        $response->assertStatus(200);
 
         $this->assertCount(1, User::all());
 
@@ -45,5 +45,21 @@ class UserControllerTest extends TestCase
         $this->assertEquals($player->password, 'password100');
         $this->assertEquals($player->password_confirmation, 'password100');
 
+        $response->get("/api/users/players/{$player->id}");
+
+    }
+
+    /** @test */
+    public function player_can_be_deleted()
+    {
+        //$this->withoutExceptionHandling();
+        $player = User::factory(1)->create();
+        $response= $this->delete("/api/users/players/{$player[0]->id}");
+        //$users= User::all();
+
+
+        $response= $this->delete($player[0]->id);
+
+        $response->assertStatus(200);
     }
 }
