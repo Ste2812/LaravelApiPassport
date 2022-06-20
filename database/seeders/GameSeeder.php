@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 use App\Models\Game;
+use App\Models\User;
+use Faker\Factory;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -19,10 +21,6 @@ class GameSeeder extends Seeder
      */
     public function run()
     {
-
         Game::factory(10)->create();
-
-
-        //factory(Game::class, 10)->create();
     }
 }

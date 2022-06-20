@@ -4,6 +4,8 @@ namespace Tests\Unit\database\seeders;
 
 use App\Models\Game;
 use PHPUnit\Framework\TestCase;
+use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class GameSeeder extends TestCase
 {
@@ -17,9 +19,13 @@ class GameSeeder extends TestCase
         $this->assertTrue(true);
     }
 
+    /** @test */
     public function run_gameSeeder()
     {
         $arraySeed= Game::factory(Game::class)->create();
+
+        //$this->withoutExceptionHandling();
+
         echo response([$arraySeed])->json();
     }
 }

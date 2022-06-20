@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Game;
 use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class PlayerController extends Controller
 {
@@ -16,9 +18,7 @@ class PlayerController extends Controller
      */
     public function index()
     {
-
-        return User::all();
-
+        return Auth::user()->id;
     }
 
     /**
@@ -31,13 +31,7 @@ class PlayerController extends Controller
     {
         $user= User::find($request->id);
         $game = new Game();
-        $game->dice_one=rand(1, 6);
-        $game->dice_two=rand(1, 6);
-        //$game->success_result=0;
-        $game=$this->points=rand(true, false);
-        $game=$this->result=$this->dice_one+$this->dice_two;
-        //$game->user_id=$request->$user;
-        $game->user_id=rand(1, 10);
+        $game->user_id=$request->$user->id;
         $out=false;
         $count=1;
 
@@ -51,23 +45,23 @@ class PlayerController extends Controller
             echo "dado 1: ".$game->dice_one+" dado 2: "+$game->dice_two;
             $result= $game->dice_one+$game->dice_two;
             $result=$this->result=$result;
+            echo "dado 1: ".$game->dice_one." dado 2: ".$game->dice_two;
             echo "resultado jugada: ".$result;
-
-            if($out==false){
-
+            //$input=readline("¿Quieres tirar de nuevo? (s/n)");
             if ($game->result==7){
 
-                $successResult=1;
-                $game->$successResult;
+                $game->points=1;
                 echo 'Won! ;)';
 
             }else{
-                $successResult=0;
-                $game->successResult;
+                $game->points=0;
+                ;
                 echo 'lost! try again ;(';
             }
+            if($out==false){
+                $game->save();
+            }else{
 
-        }else{
             echo "volver a tirar otra mano de dados?(S/N)";
             sscanf($input, "%d");
             if($input==stristr($input, "n")||$input==stristr($input, "N")){
@@ -77,15 +71,18 @@ class PlayerController extends Controller
             }
         }
         $count++;
-
         }
 
+        $game->save();
 
-
-        //$game->save();
-        echo $game;
-
-        return response()->json([$game]);
+        return response()->json([
+            'id' => $game->id,
+            'dice 1' => $game->dice_one,
+            'dice 2' => $game->dice_two,
+            'result' => $game->result,
+            'points' => $game->points,
+            'user_id' => $game->user_id,
+        ]);
 
     }
 
@@ -109,9 +106,13 @@ class PlayerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, User $id)
     {
-        //
+        $player = User::find($id);
+
+        $player->username =$request->username;
+
+        $player->update();
     }
 
     /**
@@ -131,11 +132,6 @@ class PlayerController extends Controller
 
     }
 
-    public function create_player()
-    {
-
-
-    }
 
 
 
@@ -144,7 +140,14 @@ class PlayerController extends Controller
         $game= Game::find($request->user_id);
 
 
-        return response()->json([$game], 200);
+        return response()->json([
+            'id' => $game,
+            'dice 1' => $game->dice_one,
+            'dice 2' => $game->dice_two,
+            'result' => $game->result,
+            'points' => $game->points,
+            'user_id' => $game->user_id,
+        ], 200);
 
     }
 
@@ -152,6 +155,9 @@ class PlayerController extends Controller
     {
 
         $game= $request(Game::all());
+        $query= DB::table('games')->select('user_id', DB::raw('sum(result) as total_result'))->groupBy('user_id')->orderBy('total_result', 'desc')->get();
+
+        $query->count();
 
         $sumGamesWon=$game->success_results;
         $ranking=0;
@@ -183,6 +189,11 @@ class PlayerController extends Controller
     public function lowest_ranking(Request $request)
     {
         $game= Game::all();
+
+        $query= DB::table('games')->select('user_id', DB::raw('sum(result) as total_result'))->groupBy('user_id')->orderBy('total_result', 'asc')->get();
+
+        $query->count();
+        
         $lowestRanking=0;
 
 
@@ -196,4 +207,6 @@ class PlayerController extends Controller
         $highestRanking=0;
 
     }
+
+
 }
