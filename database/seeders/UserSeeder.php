@@ -24,7 +24,7 @@ class UserSeeder extends Seeder
             'username' => 'admin',
             'email' => 'admin@admin.com',
             'email_verified_at' => now(),
-            'password' => 'MuyF4c1l', // password
+            'password' => 'ZWAc4AXPF3Mdoz3IebYMuqfLD80hde9YRtxDTvjt', // password
             'remember_token' => Str::random(10),
         ])->assignRole('admin');
 
@@ -32,7 +32,7 @@ class UserSeeder extends Seeder
             'username' => 'player',
             'email' => 'player@player.com',
             'email_verified_at' => now(),
-            'password' => 'MuyD1fic1l', // password
+            'password' => 'ZWAc4AXPF3Mdoz3IebYMuqfLD80hde9YRtxDTvjt', // password
             'remember_token' => Str::random(10),
         ])->assignRole('user');
 

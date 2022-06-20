@@ -18,7 +18,7 @@ class UserController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'username'=>'required|string|max:50',
-            'name'=> 'required|string|max:50',
+            //'name'=> 'required|string|max:50',
             'email'=> 'required|string|email|max:255|unique:users',
             'password'=> 'required|string|between:8,50|confirmed'
         ]);
@@ -32,16 +32,17 @@ class UserController extends Controller
 
 
         $user= User::create($request->toArray());
-        $token = $user->createToken('Laravel Password Grant Client')->accessToken;
+        $token = $user->createToken('Personal Access Token')->accessToken;
         $user->username =$request->username;
-        $user->name =$request->name;
+        //$user->name =$request->name;
         $user->email =$request->email;
         $user->password =$request->password;
-        
+        $user->registerd_at = now();
+
 
         $user->save();
-        $response ='Successfully creates user';
-        return response($response, 200)->json([$user, $token]);
+        $response ='Successfully created user';
+        return response()->json(['token'=>$token, 'message' => $response], 200);
     }
 
     public function user_update(Request $request, $id)
@@ -50,7 +51,7 @@ class UserController extends Controller
 
         $validator = Validator::make($request->all(), [
             'username'=> 'required|string|max:50',
-            'name'=> 'required|string|max:50',
+            //'name'=> 'required|string|max:50',
             'email' => 'required|string|email|max:255|unique:users',
             'password'=> 'required|string|between:8,50|confirmed',
 
@@ -62,7 +63,7 @@ class UserController extends Controller
 
         $request['password'] = Hash::make($request['password']);
          $user->username= $request->username;
-         $user->name = $request->name;
+         //$user->name = $request->name;
          $user->email = $request->email;
          $user->password = $request->password;
 
@@ -102,9 +103,9 @@ class UserController extends Controller
         }
 
         $user = $request->user();
-        $accessToken = $user->createToken('authToken')->accessToken;
+        $accessToken = $user->createToken('Personal Access Token')->accessToken;
 
-        return response(['user'=> Auth::user(), 'access_token'=>$accessToken]);
+        return response(['user'=> Auth::user(), 'access_token'=>$accessToken], 200);
     }
 
     public function logout(Request $request)

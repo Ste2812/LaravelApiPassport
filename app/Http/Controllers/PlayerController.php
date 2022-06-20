@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Game;
 use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Auth;
 
 class PlayerController extends Controller
 {
@@ -16,9 +17,7 @@ class PlayerController extends Controller
      */
     public function index()
     {
-
-        return User::all();
-
+        return Auth::user()->id;
     }
 
     /**
@@ -31,13 +30,13 @@ class PlayerController extends Controller
     {
         $user= User::find($request->id);
         $game = new Game();
-        $game->dice_one=rand(1, 6);
-        $game->dice_two=rand(1, 6);
+        //$game->dice_one=rand(1, 6);
+        //$game->dice_two=rand(1, 6);
         //$game->success_result=0;
-        $game=$this->points=rand(true, false);
-        $game=$this->result=$this->dice_one+$this->dice_two;
+        //$game=$this->points=rand(true, false);
+        //$game=$this->result=$this->dice_one+$this->dice_two;
         //$game->user_id=$request->$user;
-        $game->user_id=rand(1, 10);
+        $game->user_id=$request->$user->id;
         $out=false;
         $count=1;
 
@@ -51,23 +50,24 @@ class PlayerController extends Controller
             echo "dado 1: ".$game->dice_one+" dado 2: "+$game->dice_two;
             $result= $game->dice_one+$game->dice_two;
             $result=$this->result=$result;
+            echo "dado 1: ".$game->dice_one." dado 2: ".$game->dice_two;
             echo "resultado jugada: ".$result;
 
-            if($out==false){
 
             if ($game->result==7){
 
-                $successResult=1;
-                $game->$successResult;
+                $game->points=1;
                 echo 'Won! ;)';
 
             }else{
-                $successResult=0;
-                $game->successResult;
+                $game->points=0;
+                ;
                 echo 'lost! try again ;(';
             }
+            if($out==false){
+                $game->save();
+            }else{
 
-        }else{
             echo "volver a tirar otra mano de dados?(S/N)";
             sscanf($input, "%d");
             if($input==stristr($input, "n")||$input==stristr($input, "N")){
@@ -77,13 +77,9 @@ class PlayerController extends Controller
             }
         }
         $count++;
-
         }
 
-
-
-        //$game->save();
-        echo $game;
+        $game->save();
 
         return response()->json([$game]);
 
