@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::group([
     'prefix' => 'users'], function() {
-        Route::post('players', [UserController::class, 'user_create'])->/*middleware('can:store.player')->*/name('store.player');
+        Route::post('register', [UserController::class, 'user_create'])->middleware('can:store.player')->name('store.player');
         Route::post('login', [UserController::class, 'login'])->name('login');
 
         //rutas de acceso solo para usuarios logeados
